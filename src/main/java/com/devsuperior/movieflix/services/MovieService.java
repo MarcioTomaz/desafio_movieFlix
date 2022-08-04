@@ -33,13 +33,16 @@ public class MovieService {
     public Page<MovieListDTO> findByGenre(Long genreId, Pageable pageable){
 
         Genre genre = ( genreId == 0 ) ? null : genreRepository.getOne(genreId);
+
         Page<Movie> page = movieRepository.findByGenre(genre, pageable);
         movieRepository.findMoviesAndGenres(page.getContent());
+
         return page.map( x -> new MovieListDTO(x));
     }
 
     @Transactional
     public MovieDTO findById(Long id){
+
         Optional<Movie> obj = movieRepository.findById(id);
         Movie entity = obj.orElseThrow(() -> new ResourceNotFoundException("Filme nao encontrado"));
 

@@ -22,7 +22,7 @@ public class GenreService {
     private GenreRepository repository;
 
     @Transactional
-    public List<GenreDTO> findAllCategories(){
+    public List<GenreDTO> findAllGenres(){
 
         List<Genre> dto = repository.findAll();
 
