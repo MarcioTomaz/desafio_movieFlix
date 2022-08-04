@@ -2,7 +2,8 @@ package com.devsuperior.movieflix.DTO;
 
 import com.devsuperior.movieflix.entities.Genre;
 
-public class GenreDTO {
+public class
+GenreDTO {
 
     private Long id;
 
