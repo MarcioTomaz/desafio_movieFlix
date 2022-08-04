@@ -11,39 +11,25 @@ import java.util.Set;
 public class MovieDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     private Long id;
     private String title;
     private String subTitle;
+    private Integer year;
     private String imgUrl;
     private String synopsis;
-    private Integer year;
+    private GenreDTO genre;
 
-    private List<GenreDTO> genre = new ArrayList<>();
-
-    public MovieDTO (){}
-
-    public MovieDTO(Long id, String title, String subTitle, String imgUrl, String synopsis, Integer year) {
-        this.id = id;
-        this.title = title;
-        this.subTitle = subTitle;
-        this.imgUrl = imgUrl;
-        this.synopsis = synopsis;
-        this.year = year;
+    public MovieDTO() {
     }
 
     public MovieDTO(Movie entity) {
         id = entity.getId();
         title = entity.getTitle();
         subTitle = entity.getSubTitle();
+        year = entity.getYear();
         imgUrl = entity.getImgUrl();
         synopsis = entity.getSynopsis();
-        year = entity.getYear();
-    }
-
-    public MovieDTO(Movie entity, Set<Genre> genre){
-        this(entity);
-        genre.forEach(gen -> this.genre.add(new GenreDTO(gen)));
+        genre = new GenreDTO(entity.getGenre());
     }
 
     public Long getId() {
@@ -66,16 +52,16 @@ public class MovieDTO implements Serializable {
         return subTitle;
     }
 
+    public void setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
+    }
+
     public Integer getYear() {
         return year;
     }
 
     public void setYear(Integer year) {
         this.year = year;
-    }
-
-    public void setSubTitle(String subTitle) {
-        this.subTitle = subTitle;
     }
 
     public String getImgUrl() {
@@ -94,11 +80,15 @@ public class MovieDTO implements Serializable {
         this.synopsis = synopsis;
     }
 
-    public List<GenreDTO> getGenre() {
+    public GenreDTO getGenre() {
         return genre;
     }
 
-    public void setGenre(List<GenreDTO> genre) {
+    public void setGenre(GenreDTO genre) {
         this.genre = genre;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
     }
 }

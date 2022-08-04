@@ -1,6 +1,7 @@
 package com.devsuperior.movieflix.resources;
 
 import com.devsuperior.movieflix.DTO.GenreDTO;
+import com.devsuperior.movieflix.services.GenreService;
 import com.devsuperior.movieflix.services.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,14 +16,13 @@ import java.util.List;
 public class GenreResource {
 
     @Autowired
-    private MovieService service;
+    private GenreService service;
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<List<GenreDTO>> findAll(){
 
         List<GenreDTO> result = service.findAllCategories();
 
         return ResponseEntity.ok().body(result);
-
     }
 }

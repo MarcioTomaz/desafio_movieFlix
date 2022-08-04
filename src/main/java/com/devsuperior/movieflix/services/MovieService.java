@@ -3,6 +3,7 @@ package com.devsuperior.movieflix.services;
 
 import com.devsuperior.movieflix.DTO.GenreDTO;
 import com.devsuperior.movieflix.DTO.MovieDTO;
+import com.devsuperior.movieflix.DTO.MovieListDTO;
 import com.devsuperior.movieflix.entities.Genre;
 import com.devsuperior.movieflix.entities.Movie;
 import com.devsuperior.movieflix.repositories.GenreRepository;
@@ -22,14 +23,27 @@ import java.util.stream.Collectors;
 public class MovieService {
 
     @Autowired
-    private GenreRepository repository;
+    private MovieRepository movieRepository;
+
+    @Autowired
+    private GenreRepository genreRepository;
+
 
     @Transactional
-    public List<GenreDTO> findAllCategories(){
+    public Page<MovieListDTO> findByGenre(Long genreId, Pageable pageable){
 
-        List<Genre> dto = repository.findAll();
+        Genre genre = ( genreId == 0 ) ? null : genreRepository.getOne(genreId);
+        Page<Movie> page = movieRepository.findByGenre(genre, pageable);
+        movieRepository.findMoviesAndGenres(page.getContent());
+        return page.map( x -> new MovieListDTO(x));
+    }
 
-        return dto.stream().map( x -> new GenreDTO(x)).collect(Collectors.toList());
+    @Transactional
+    public MovieDTO findById(Long id){
+        Optional<Movie> obj = movieRepository.findById(id);
+        Movie entity = obj.orElseThrow(() -> new ResourceNotFoundException("Filme nao encontrado"));
+
+        return new MovieDTO(entity);
     }
 
 
